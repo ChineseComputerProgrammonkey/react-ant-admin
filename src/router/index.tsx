@@ -41,12 +41,12 @@ const Router = () => {
   const routerBody = useMemo(() => {
     // 监听 本地路由列表   同时存在长度大于1时 渲染路由组件
     if (mergeRouterList.length) {
-      return mergeRouterList.map((item) => {
+      const data = mergeRouterList.map((item) => {
         let { [MENU_KEY]: key, [MENU_PATH]: path } = item;
         return (
           <Route
             key={key}
-            path={path}
+            path={path.replace("/", "")}
             element={<Intercept
               {...item}
               menuList={ajaxUserMenuList}
@@ -55,10 +55,12 @@ const Router = () => {
           />
         );
       });
+      return <Routes>{data}</Routes>
     }
+    return null
   }, [ajaxUserMenuList, mergeRouterList])
 
-  return <Routes>{routerBody}</Routes>;
+  return routerBody;
 };
 
 export default Router;
